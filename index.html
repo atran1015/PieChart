@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+const content = `<html>
+  <head>
+      <title>JavaScript Pie Chart</title>
+      <script src="https://cdn.anychart.com/releases/8.0.1/js/anychart-core.min.js"></script>
+      <script src="https://cdn.anychart.com/releases/8.0.1/js/anychart-pie.min.js"></script>
+      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  </head>
+  <body>
+    <div id="container" style="width: 500px; height: 500px"></div>
+    <script>
+      anychart.onDocumentReady(function() {
+
+        axios.get('https://disease.sh/v3/covid-19/nyt/states/California?lastdays=All')
+    .then((response) => {
+        console.log("This is response.data: ", response.data);
+        var result = response.data;
+        console.log("How about here?", result[0].cases);
+        
+        // set the data
+        var data = [
+            {x: "Recoveries", value: result[0].cases - result[0].deaths},
+            {x: "Deaths", value: result[0].deaths},
+        ];
+      
+        // create the chart
+        var chart = anychart.pie();
+      
+        // set the chart title
+        chart.title("COVID Mortality Rate in California");
+      
+        // add the data
+        chart.data(data);
+      
+        // display the chart in the container
+        chart.container('container');
+        chart.draw();
+      
+      });
+
+      
+
+    })
+
+        
+    </script>
+  </body>
+</html>
